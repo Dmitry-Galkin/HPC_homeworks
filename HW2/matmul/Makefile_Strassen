@@ -1,0 +1,20 @@
+CC=gcc
+CFLAGS=-c -g -O3
+
+all: matmul_strassen_exec_time
+
+matmul_strassen_exec_time: main_strassen.o matmul_strassen.o matmul.o
+	$(CC) main_strassen.o matmul_strassen.o matmul.o -o matmul_strassen_exec_time
+	
+main_strassen.o: main_strassen.c
+	$(CC) $(CFLAGS) main_strassen.c
+	
+matmul_strassen.o: matmul_strassen.c
+	$(CC) $(CFLAGS) matmul_strassen.c
+	
+matmul.o: matmul.c
+	$(CC) $(CFLAGS) matmul.c
+	
+clean:
+	rm -f *.o all
+
