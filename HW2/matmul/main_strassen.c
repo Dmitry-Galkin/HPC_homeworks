@@ -35,8 +35,6 @@ int main()
     printf("average runtime kij %lf seconds\n", average_runtime);
     printf("---------------------------------\n");
     
-    Show(&C[0], N);
-    
     // Strassen
     average_runtime = 0.0;
     for(int n=0; n<NRuns; n++)
@@ -47,8 +45,6 @@ int main()
     }
     printf("average runtime kij %lf seconds\n", average_runtime);
     printf("---------------------------------\n");
-    
-    Show(&C[0], N);
     
     free(A); 
     free(B);

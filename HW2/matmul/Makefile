@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS=-c -g -O3
 
-all: matmul_exec_time
+all: matmul
 
-matmul_exec_time: main.o matmul.o
-	$(CC) main.o matmul.o -o matmul_exec_time
+matmul: main.o matmul.o
+	$(CC) main.o matmul.o -o matmul
 	
 matmul.o: matmul.c
 	$(CC) $(CFLAGS) matmul.c
