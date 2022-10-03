@@ -23,17 +23,6 @@ int main()
 
     RandomMatrix(&A[0], N);
     RandomMatrix(&B[0], N);
-
-    // kij ordering
-    double average_runtime = 0.0;
-    for(int n=0; n<NRuns; n++)
-    {
-        runtimes[n]=CalcMatMulTime_kij(&A[0], &B[0], &C[0], N);
-        printf("runtime %lf seconds\n", runtimes[n]);
-        average_runtime += runtimes[n]/NRuns;
-    }
-    printf("average runtime kij %lf seconds\n", average_runtime);
-    printf("---------------------------------\n");
     
     // Strassen
     average_runtime = 0.0;
@@ -43,7 +32,7 @@ int main()
         printf("runtime %lf seconds\n", runtimes[n]);
         average_runtime += runtimes[n]/NRuns;
     }
-    printf("average runtime kij %lf seconds\n", average_runtime);
+    printf("average runtime Strassen %lf seconds\n", average_runtime);
     printf("---------------------------------\n");
     
     free(A); 
