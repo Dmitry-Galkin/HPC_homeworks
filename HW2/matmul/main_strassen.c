@@ -25,7 +25,7 @@ int main()
     RandomMatrix(&B[0], N);
     
     // Strassen
-    average_runtime = 0.0;
+    double average_runtime = 0.0;
     for(int n=0; n<NRuns; n++)
     {
         runtimes[n]=CalcMatMulTime_Strassen(&A[0], &B[0], &C[0], N);
