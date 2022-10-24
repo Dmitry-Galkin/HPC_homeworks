@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import time
 from argparse import ArgumentParser
 from typing import Dict, List
 
@@ -85,7 +84,7 @@ class CellularAutomaton:
     def run(self, show: bool = False):
         """Run automaton."""
 
-        time_start = time.time()
+        time_start = MPI.Wtime()
 
         comm = MPI.COMM_WORLD
         size = comm.Get_size()
@@ -103,7 +102,7 @@ class CellularAutomaton:
             if show and rank == self.root:
                 self.show_state(state=state_full.flatten())
 
-        elapsed_time = time.time() - time_start
+        elapsed_time = MPI.Wtime() - time_start
         elapsed_time_list = comm.gather(elapsed_time, root=self.root)
         if rank == self.root:
             print(f"elapsed time with {size} processes: {np.round(np.mean(elapsed_time_list), 2)} s")
