@@ -112,11 +112,10 @@ if __name__ == "__main__":
 
     args = parse_arguments()
 
-    for _ in range(5):
-        ca = CellularAutomaton(
-            aut_size=args.aut_size,
-            rule_number=args.rule_number,
-            root=args.root,
-            n_steps=args.n_steps
-        )
-        ca.run(show=args.show)
+    ca = CellularAutomaton(
+        aut_size=args.aut_size,
+        rule_number=args.rule_number,
+        root=args.root,
+        n_steps=args.n_steps
+    )
+    ca.run(show=args.show)
