@@ -38,7 +38,7 @@ class CellularAutomaton:
     def show_state(self, state: List[int]):
         """Show one epoch."""
         line = list(map(lambda x: " " if x == 1 else "\u2588", state))
-        print("".join(line), end="")
+        print("|" + "|".join(line), end="")
         print("|")
 
     def init_first_state(self, chunk_size: int) -> np.array:
@@ -49,8 +49,12 @@ class CellularAutomaton:
         state[-1] = -1  # ghost cell
         return state
 
-    def send_recv(self, comm, state: np.array, rank: int, size: int):
+    def send_recv(self, comm, state: np.array, rank: int, size: int) -> np.array:
         """Send-receive."""
+
+        if size == 1:
+            state[0], state[-1] = state[-2], state[1]
+            return state
 
         # next rank
         rank_next = rank + 1
@@ -70,6 +74,8 @@ class CellularAutomaton:
         comm.Recv([state[0:1], 1, MPI.INT], source=rank_prev, tag=0)
         # receive from next
         comm.Recv([state[state.size-1:state.size], 1, MPI.INT], source=rank_next, tag=0)
+
+        return state
 
     def update_state(self, state: np.array):
         """Update state."""
@@ -96,7 +102,7 @@ class CellularAutomaton:
         state_full = np.zeros((size, chunk_size), dtype=np.int32)
 
         for _ in range(self.n_steps):
-            self.send_recv(comm=comm, state=state, rank=rank, size=size)
+            state = self.send_recv(comm=comm, state=state, rank=rank, size=size)
             state = self.update_state(state=state)
             comm.Gather(state[1:-1], state_full, root=self.root)
             if show and rank == self.root:
