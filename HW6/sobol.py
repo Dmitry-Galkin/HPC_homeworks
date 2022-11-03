@@ -47,7 +47,7 @@ problem = {
 }
 
 t = time.time()
-param_values = saltelli.sample(problem, 65536 * 2)
+param_values = saltelli.sample(problem, 65536)
 print(f"sample generation: {time.time() - t} s")
 
 Y = np.zeros([param_values.shape[0]])
@@ -62,7 +62,7 @@ print(f"SA: {time.time() - t} s")
 
 print("\nSA results:\n")
 
-n_round = 6
+n_round = 4
 print("S1:", Si["S1"].round(n_round))
 print("ST:", Si["ST"].round(n_round))
 print("x1-x2:", Si['S2'][0, 1].round(n_round))
