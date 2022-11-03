@@ -36,8 +36,8 @@ double calculation_e_simple(int n_iter, int N)
 
 long factorial(int n)
 {
-	long f = 1;
-	
+    long f = 1;
+    
     #pragma omp parallel for shared(f)
     for (int i = 2; i < n + 1; i++)
     {
@@ -49,10 +49,10 @@ long factorial(int n)
 
 double calc_e_one_time(int n_iter)
 {
-	double e = 0;
-	long f;
-	
-	#pragma omp parallel for private(f) reduction(+:e)
+    double e = 0;
+    long f;
+    
+    #pragma omp parallel for private(f) reduction(+:e)
     for (int n = 0; n < n_iter; n++)
     {
         f = factorial(n);
@@ -75,36 +75,36 @@ double calculation_e_omp(int n_iter, int N)
     
     /*#pragma omp parallel shared(exp, N, n_iter)
     {
-    	#pragma omp for private(e) reduction(+:exp)
-		for (int j = 0; j < N; j++)
-		{
-		    double e = calc_e_one_time(n_iter);		    
+        #pragma omp for private(e) reduction(+:exp)
+        for (int j = 0; j < N; j++)
+        {
+            double e = calc_e_one_time(n_iter);            
 
-		    exp += e;
-		}
+            exp += e;
+        }
     }*/
     
     #pragma omp parallel shared(exp, N, n_iter)
     {
-		#pragma omp for private(e) reduction(+:exp)
-		for (int j = 0; j < N; j++)
-		{
-		    e = 0;
-		    
-		    for (int n = 0; n < n_iter; n++)
-		    {
-		        f = 1;
-		        
-		        for (int i = 2; i < n + 1; i++)
-		        {
-		            f *= i;
-		        }
-		        
-		        e += 1.0 / f;
-		    }
-		        
-		    exp += e;
-		}
+        #pragma omp for private(e) reduction(+:exp)
+        for (int j = 0; j < N; j++)
+        {
+            e = 0;
+            
+            for (int n = 0; n < n_iter; n++)
+            {
+                f = 1;
+                
+                for (int i = 2; i < n + 1; i++)
+                {
+                    f *= i;
+                }
+                
+                e += 1.0 / f;
+            }
+                
+            exp += e;
+        }
     }
     
     return exp / N;
@@ -113,6 +113,6 @@ double calculation_e_omp(int n_iter, int N)
 
 void main()
 {
-	double e = calculation_e_omp(20, 100);
-	printf("%f\n", e);
+    double e = calculation_e_omp(20, 100);
+    printf("%f\n", e);
 }
