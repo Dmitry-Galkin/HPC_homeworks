@@ -52,12 +52,10 @@ def calculation_e_ctypes_simple(n_iter, N=100):
 	
 	
 def calculation_e_ctypes_omp(n_iter, N=100):
-
 	clibE = ctypes.CDLL("./libE.so")
 	clibE.calculation_e_omp.restype = ctypes.c_double
 	e = clibE.calculation_e_omp(ctypes.c_int(n_iter), ctypes.c_int(N))
 	return e
-
 
 
 n_iter = 60
